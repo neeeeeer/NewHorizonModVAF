@@ -46,7 +46,7 @@ public class DefaultIntervention {
     private static final Seq<int[]> tierPoolBuilder = new Seq<>();
     private static int[][] tierPools;
 
-    private static long nextInterventionAt = Long.MAX_VALUE;
+    private static double nextInterventionAt = Double.MAX_VALUE;
     private static boolean interventionRunning;
     private static ActionBus currentBus;
 
@@ -219,7 +219,7 @@ public class DefaultIntervention {
     }
 
     private static void scheduleNext(float delaySeconds) {
-        nextInterventionAt = Time.millis() + (long) (delaySeconds * 1000f);
+        nextInterventionAt = (double) Time.time + delaySeconds * Time.toSeconds;
     }
 
     public static void update() {
@@ -246,7 +246,7 @@ public class DefaultIntervention {
             return;
         }
 
-        if (Time.millis() < nextInterventionAt) return;
+        if (Time.time < nextInterventionAt) return;
 
         dispatch(wave, player);
     }

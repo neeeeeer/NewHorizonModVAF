@@ -44,7 +44,7 @@ public class DefaultRaid {
     private static final Seq<int[]> tierPoolBuilder = new Seq<>();
     private static int[][] tierPools;
 
-    private static long nextRaidAt = Long.MAX_VALUE;
+    private static double nextRaidAt = Double.MAX_VALUE;
     private static boolean raidRunning;
     private static ActionBus currentRaidBus;
 
@@ -196,7 +196,7 @@ public class DefaultRaid {
     }
 
     private static void scheduleNextRaid(float delaySeconds) {
-        nextRaidAt = Time.millis() + (long) (delaySeconds * 1000f);
+        nextRaidAt = (double) Time.time + delaySeconds * Time.toSeconds;
     }
 
     public static void update() {
@@ -223,7 +223,7 @@ public class DefaultRaid {
             return;
         }
 
-        if (Time.millis() < nextRaidAt) return;
+        if (Time.time < nextRaidAt) return;
 
         dispatchRaid(wave, player);
     }
